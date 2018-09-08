@@ -11,8 +11,19 @@
 	width: 30%;
 }
 
-.KeyTableRow-Value {
-	width: 70%;
+.KeyTableRow-Value textarea {
+	width: 100%;
+	resize: vertical;
+}
+
+.KeyTableRow-Value textarea {
+	width: 100%;
+	resize: vertical;
+	min-height: 70px;
+}
+
+.KeyTableRow-Icon {
+	width: 30px;
 }
 
 .KeyTableRow-Trash:hover {
