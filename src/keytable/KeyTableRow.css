@@ -1,0 +1,30 @@
+.KeyTableRow:hover {
+	background-color: #dadedb;
+}
+
+.KeyTableRow td {
+	min-width: 40px;
+	cursor: pointer;
+}
+
+.KeyTableRow-Key {
+	width: 30%;
+}
+
+.KeyTableRow-Value {
+	width: 70%;
+}
+
+.KeyTableRow-Trash:hover {
+	color: red;
+	transition: 0.2s;
+}
+
+.KeyTableRow-Save:hover {
+	color: blue;
+	transition: 0.2s;
+}
+
+.KeyTableRow > td {
+	vertical-align: middle !important;
+}
