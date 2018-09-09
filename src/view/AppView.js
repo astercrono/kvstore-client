@@ -4,8 +4,16 @@ import KeyTableView from "./keytable/KeyTable";
 import "./AppView.css";
 import AddKeyValueButton from "./AddKeyValueButton";
 import RefreshKeyValueButton from "../RefreshKeyValueButton";
+import APIKey from "../model/APIKey";
+import Actions from "../data/Actions";
 
 class AppView extends Component {
+	componentDidMount() {
+		if (APIKey.get()) {
+			Actions.refresh();
+		}
+	}
+
 	render() {
 		return (
 			<div className="App, container">

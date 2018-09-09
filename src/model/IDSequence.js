@@ -11,6 +11,10 @@ class IDSequence {
 	atLimit() {
 		return this.sequence >= 100000;
 	}
+
+	reset() {
+		this.sequence = 1;
+	}
 }
 
 export default new IDSequence();

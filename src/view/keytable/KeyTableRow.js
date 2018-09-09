@@ -16,7 +16,7 @@ class KeyTableRow extends Component {
 			key: props.value.key,
 			value: props.value.value,
 			isModified: isModified,
-			errorMessages: props.validateKeyValue()
+			errorMessages: props.validateKeyValue(props.value.id, props.value.key, props.value.value)
 		};
 
 		this.handleClick = this.handleClick.bind(this);

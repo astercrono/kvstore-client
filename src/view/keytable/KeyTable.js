@@ -3,6 +3,10 @@ import React, {Component} from "react";
 import KeyTableRow from "./KeyTableRow";
 import "./KeyTable.css";
 
+const KEY_REQUIRED_MSG = "Key Required";
+const VALUE_REQUIRED_MSG = "Value Required";
+const KEY_ALREADY_EXISTS_MSG = "Key Already Exists";
+
 class KeyTable extends Component {
 	constructor(props) {
 		super(props);
@@ -22,11 +26,11 @@ class KeyTable extends Component {
 		let messages = [];
 
 		if (!key || key === "") {
-			messages.push("Key required");
+			messages.push(KEY_REQUIRED_MSG);
 		}
 
 		if (!value || value === "") {
-			messages.push("Value Required");
+			messages.push(VALUE_REQUIRED_MSG);
 		}
 
 		if (messages.length > 0) {
@@ -35,11 +39,11 @@ class KeyTable extends Component {
 
 		const keyValues = this.props.keyValues.toArray();
 		const match = keyValues.find((kv) => {
-			return (kv.id !== id && kv.key == key);
+			return (kv.id !== id && kv.key === key);
 		});
 
 		if (match) {
-			messages.push("Key Already Exists");
+			messages.push(KEY_ALREADY_EXISTS_MSG);
 		}
 
 		if (messages.length > 0) {

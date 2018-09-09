@@ -17,9 +17,7 @@ class KeyValueStore extends ReduceStore {
 	reduce(state, action) {
 		switch (action.type) {
 			case ActionTypes.REFRESH:
-				return state;
-			case ActionTypes.ADD_KEYVALUE:
-				return this._addKeyValue(state, action);
+				return this._refresh(state, action);
 			case ActionTypes.START_EDITING_NEW:
 				return this._addEmptyKeyValue(state);
 			case ActionTypes.DELETE_KEYVALUE:
@@ -31,9 +29,28 @@ class KeyValueStore extends ReduceStore {
 		}
 	}
 
+	_refresh(state, action) {
+		return state.withMutations((state) => {
+			IDSequence.reset();
+			state.clear();
+
+			action.keyvalues.forEach((kv) => {
+				if (IDSequence.atLimit()) {
+					return;
+				}
+
+				const id = IDSequence.increment();
+				state.set(id, new KeyValue({
+					id,
+					key: kv.key,
+					value: kv.value
+				}));
+			});
+		});
+	}
+
 	_saveKeyValue(state, action) {
 		const keyValue = action.keyvalue;
-
 		return state.set(keyValue.id, new KeyValue({
 			id: keyValue.id,
 			key: keyValue.key,
