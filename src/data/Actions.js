@@ -29,6 +29,7 @@ const Actions = {
 	},
 
 	saveKeyValue(keyvalue) {
+		console.log("saving");
 		AppDispatcher.dispatch({
 			type: ActionTypes.SAVE_KEYVALUE,
 			keyvalue: keyvalue

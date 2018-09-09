@@ -15,7 +15,8 @@ class KeyTableRow extends Component {
 			id: props.value.id,
 			key: props.value.key,
 			value: props.value.value,
-			isModified: isModified
+			isModified: isModified,
+			errorMessages: props.validateKeyValue()
 		};
 
 		this.handleClick = this.handleClick.bind(this);
@@ -85,24 +86,43 @@ class KeyTableRow extends Component {
 		}
 	}
 
+	prerenderErrorMessages() {
+		let renderedErrorMessages = undefined;
+
+		if (this.state.errorMessages && this.state.errorMessages.length > 0) {
+			renderedErrorMessages = this.state.errorMessages.map((msg) => {
+				return (
+					<div className="KeyTableRow-ErrorMessage" key={msg}>{msg}</div>
+				);
+			});
+		}
+
+		return renderedErrorMessages;
+	}
+
 	renderKeyCell() {
+		let renderedErrorMessages = this.prerenderErrorMessages();
+
 		return (
 			<td className="KeyTableRow-Key" onClick={this.handleClick}>
 				{!this.state.isEditing && this.state.key !== "" && this.state.key}
 				{!this.state.isEditing && this.state.key === "" && "--"}
 				{this.state.isEditing && <KeyInput onValueChange={this.onKeyChange} value={this.state.key}/>}
+				{(renderedErrorMessages && renderedErrorMessages !== "") ? renderedErrorMessages : ""}
 			</td>
 		);
 	}
 
 	renderValueCell() {
-		return (<td className="KeyTableRow-Value" onClick={this.handleClick}>
-			{!this.state.isEditing && this.state.value !== "" &&
-			<span>&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</span>}
-			{!this.state.isEditing && this.state.value === "" &&
-			<span>--</span>}
-			{this.state.isEditing && <ValueInput onValueChange={this.onValueChange} value={this.state.value}/>}
-		</td>);
+		return (
+			<td className="KeyTableRow-Value" onClick={this.handleClick}>
+				{!this.state.isEditing && this.state.value !== "" &&
+				<span>&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</span>}
+				{!this.state.isEditing && this.state.value === "" &&
+				<span>--</span>}
+				{this.state.isEditing && <ValueInput onValueChange={this.onValueChange} value={this.state.value}/>}
+			</td>
+		);
 	}
 
 	renderIconCell() {
@@ -117,25 +137,36 @@ class KeyTableRow extends Component {
 	}
 
 	render() {
+		let additionalClass = "";
+		if (this.state.isModified) {
+			additionalClass = " KeyTableRow-New";
+		}
+
 		return (
-			<tr className={"KeyTableRow" + (this.state.isModified ? " KeyTableRow-New" : "")}>
-				{this.renderKeyCell(this.state.tempKey)}
-				{this.renderValueCell(this.state.tempValue)}
+			<tr className={"KeyTableRow" + additionalClass} key={this.state.id}>
+				{this.renderKeyCell()}
+				{this.renderValueCell()}
 				{this.renderIconCell()}
 			</tr>
 		);
 	}
 
 	_save() {
+		let errorMessages = this.props.validateKeyValue(this.state.id, this.state.key, this.state.value);
+		let hasErrors = (errorMessages && errorMessages.length > 0);
+
 		this.setState({
 			isEditing: false,
-			isModified: false
+			isModified: hasErrors,
+			errorMessages: errorMessages
 		}, () => {
-			Actions.saveKeyValue({
-				id: this.state.id,
-				key: this.state.key,
-				value: this.state.value
-			});
+			if (!this.state.errorMessages || this.state.errorMessages.length === 0) {
+				Actions.saveKeyValue({
+					id: this.state.id,
+					key: this.state.key,
+					value: this.state.value
+				});
+			}
 		});
 	}
 
@@ -144,7 +175,16 @@ class KeyTableRow extends Component {
 	}
 
 	_stopEdit() {
-		this.setState({isEditing: false});
+		let newErrors = undefined;
+
+		if (this.props.validateKeyValue) {
+			newErrors = this.props.validateKeyValue(this.state.id, this.state.key, this.state.value);
+		}
+
+		this.setState({
+			isEditing: false,
+			errorMessages: newErrors
+		});
 	}
 
 	_isModified(key, value) {

@@ -52,6 +52,7 @@
 	color: blue;
 }
 
-.KeyTableRow-Invalid {
+.KeyTableRow-ErrorMessage {
+	font-style: italic;
 	color: red;
 }
