@@ -1,30 +1,18 @@
 import React, {Component} from 'react';
 import APIKeyForm from "./APIKeyForm";
-import KeyTable from "./keytable/KeyTable";
-import "./App.css";
+import KeyTableView from "./keytable/KeyTable";
+import "./AppView.css";
 import AddKeyValueButton from "./AddKeyValueButton";
-import RefreshKeyValueButton from "./RefreshKeyValueButton";
-import KeyValue from "./model/KeyValue";
-import KeyValueStore from "./model/KeyValueStore";
+import RefreshKeyValueButton from "../RefreshKeyValueButton";
 
-class App extends Component {
-	constructor(props) {
-		super(props);
-		this.title = "KVStore";
-
-		const store = new KeyValueStore();
-		store.addAll([new KeyValue("Key1", "abcd"), new KeyValue("Key2", "efgh"), new KeyValue("Key3", "ijkl")]);
-		this.state = {
-			store: store
-		};
-	}
-
+class AppView extends Component {
 	render() {
 		return (
 			<div className="App, container">
 				<div className="row">
 					<div className="col-sm-12">
-						<h1><img src='key.png' width="48" height="48" alt=""/><span className="AppTitle">{this.title}</span>
+						<h1><img src='key.png' width="48" height="48" alt=""/><span
+							className="AppTitle">KVStore</span>
 						</h1>
 						<p className="lead">A simple encrypted key-value store.</p>
 					</div>
@@ -37,7 +25,7 @@ class App extends Component {
 				<div className="row">
 					<div className="col-sm-12">
 						<AddKeyValueButton/> <RefreshKeyValueButton/>
-						<KeyTable store={this.state.store}/>
+						<KeyTableView keyValues={this.props.keyValues}/>
 					</div>
 				</div>
 				<div className="row">
@@ -49,4 +37,4 @@ class App extends Component {
 	}
 }
 
-export default App;
+export default AppView;

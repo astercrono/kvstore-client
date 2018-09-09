@@ -10,7 +10,7 @@
 		"es6" : true
 	},
 	"rules" : {
-		"indent": ["error", "tab"],
+		"indent": ["error", "tab", {"SwitchCase": 1}],
 		"semi": "error"
 	},
 	"parserOptions": {

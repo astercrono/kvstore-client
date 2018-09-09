@@ -23,7 +23,15 @@
 }
 
 .KeyTableRow-Icon {
-	width: 30px;
+	width: 25px;
+}
+
+.KeyTableRow-Icon2 {
+	width: 60px;
+}
+
+.KeyTableRow-Icon2 span {
+	padding-left: 5px;
 }
 
 .KeyTableRow-Trash:hover {
@@ -32,10 +40,18 @@
 }
 
 .KeyTableRow-Save:hover {
-	color: blue;
+	color: cadetblue;
 	transition: 0.2s;
 }
 
 .KeyTableRow > td {
 	vertical-align: middle !important;
+}
+
+.KeyTableRow-New {
+	color: blue;
+}
+
+.KeyTableRow-Invalid {
+	color: red;
 }

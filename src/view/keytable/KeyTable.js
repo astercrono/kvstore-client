@@ -3,14 +3,12 @@ import KeyTableRow from "./KeyTableRow";
 import "./KeyTable.css";
 
 class KeyTable extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	renderRows() {
-		let rows = this.props.store.getAll().map((k) =>
-			<KeyTableRow value={k} key={k.key.toString()}/>
-		);
+		let rows = this.props.keyValues.toArray().map((kv) => {
+			return (
+				<KeyTableRow value={kv} key={kv.id.toString()}/>
+			);
+		});
 		return rows;
 	}
 

@@ -1,8 +1,10 @@
-class KeyValue {
-	constructor(key, value) {
-		this.key = key;
-		this.value = value;
-	}
-}
+import Immutable from "immutable";
+
+const KeyValue = Immutable.Record({
+	id: "",
+	key: "",
+	value: ""
+});
 
 export default KeyValue;
+
